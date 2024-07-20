@@ -25,9 +25,10 @@ class AppointmentsViewModel {
         "apellidos" : lastName,
         "cedula" : int.parse(cedula),
         "edad" : int.parse(age),
-        "fecha" : date.toString(),
-        "hora" : time.toString(),
+        "fecha" : '${date.year}${date.month<10? 0: "" }${date.month}${date.day < 10? 0:""}${date.day}',
+        "hora" : '${time.hour < 10 ? 0:""}${time.hour}${time.minute < 10 ? 0:""}${time.minute}',
       };
+      print(appt);
       await repo.addAppointment(appt);
       return null;
     }catch(e){

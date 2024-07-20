@@ -1,15 +1,13 @@
+import 'package:barberia_app/providers/date_time_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DateTimePickerField extends StatefulWidget{
 
   final Function stateSet;
-  DateTime date;
-  TimeOfDay time;
 
   DateTimePickerField({
     super.key,
-    required this.date,
-    required this.time,
     required this.stateSet,
   });
 
@@ -20,28 +18,31 @@ class DateTimePickerField extends StatefulWidget{
 class _DateTimePickerFieldState extends State<DateTimePickerField> {
 
   Future<void> _selectDate(BuildContext context) async{
+    var prov = Provider.of<DateTimeProvider>(context, listen: false);
+
     DateTime? aux = await showDatePicker(
       context: context, 
       firstDate: DateTime.now(), 
-      currentDate: widget.date, 
+      currentDate: prov.date, 
       lastDate: DateTime(2100)
     );
     if(aux != null){
       setState(() {
-        widget.date = aux;
+        prov.date = aux;
       });
       widget.stateSet();
     }
   }
 
   Future<void> _selectTime(BuildContext context) async{
+    var prov = Provider.of<DateTimeProvider>(context, listen: false);
     TimeOfDay? aux = await showTimePicker(
       context: context, 
       initialTime: TimeOfDay.now()
     );
     if(aux != null){
       setState(() {
-        widget.time = aux;
+        prov.time = aux;
       });
       widget.stateSet();
     }
@@ -49,6 +50,7 @@ class _DateTimePickerFieldState extends State<DateTimePickerField> {
 
   @override
   Widget build(BuildContext context) {
+    var prov = Provider.of<DateTimeProvider>(context, listen: false);
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -59,7 +61,7 @@ class _DateTimePickerFieldState extends State<DateTimePickerField> {
                 readOnly: true,
                 onTap: ()=>_selectDate(context),
                 decoration: InputDecoration(
-                  hintText: '${widget.date.year}/${widget.date.month}/${widget.date.day}',
+                  hintText: '${prov.date.year}/${prov.date.month}/${prov.date.day}',
                   filled: true,
                   prefixIcon: Icon(Icons.calendar_month_outlined),
                   enabledBorder: OutlineInputBorder(
@@ -80,7 +82,7 @@ class _DateTimePickerFieldState extends State<DateTimePickerField> {
                 readOnly: true,
                 onTap: ()=> _selectTime(context),
                 decoration: InputDecoration(
-                  hintText: '${widget.time.hour}:${widget.time.minute}',
+                  hintText: '${prov.time.hour}:${prov.time.minute}',
                   filled: true,
                   prefixIcon: Icon(Icons.timelapse_rounded),
                   enabledBorder: OutlineInputBorder(

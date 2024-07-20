@@ -1,9 +1,11 @@
 
 import 'dart:math';
 
+import 'package:barberia_app/providers/date_time_provider.dart';
 import 'package:barberia_app/view_models/appointments_view_model.dart';
 import 'package:barberia_app/widgets/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/input_field.dart';
 
@@ -19,8 +21,6 @@ class MakeAppointmentScreen extends StatefulWidget{
 
 class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
 
-  DateTime date = DateTime.now();
-  TimeOfDay time = TimeOfDay.now();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final cedulaController = TextEditingController();
@@ -35,13 +35,14 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
     else if(lastNameController.text.isEmpty) errorMessage = "Debe ingresar los apelldios";
     else if(ageController.text.isEmpty) errorMessage = "Debe ingresar la edad";
 
+    var prov = Provider.of<DateTimeProvider>(context, listen: false);
     if(errorMessage == null){
        errorMessage = await viewModel.addAppointment(
         firstName: firstNameController.text,
         lastName: lastNameController.text, 
         cedula: cedulaController.text,
         age: ageController.text, 
-        date: date, time: time
+        date: prov.date, time: prov.time
       );
     }
     if(errorMessage == null) return;
@@ -51,7 +52,7 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
         return AlertDialog(
           title: Center(child: Text("No se pudo agendar")),
           content: Container(
-            height: 80,
+            height: 100,
             child: Column(
               children: [
                 Text(errorMessage!),
@@ -100,7 +101,7 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
               controller: ageController,
             ),
             const SizedBox(height: 20,),
-            DateTimePickerField(date: date, time: time, stateSet: setState,),
+            DateTimePickerField(stateSet: setState,),
             const SizedBox(height: 20,),
             TextButton(
               style: ButtonStyle(
