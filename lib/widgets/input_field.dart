@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class InputField extends StatelessWidget{
   final String fieldType;
   final String fieldHint;
+  final TextEditingController controller;
 
   static const Map<String, TextInputType> keyboards = {
     "Cedula" : TextInputType.number,
@@ -15,6 +16,7 @@ class InputField extends StatelessWidget{
     super.key,
     required this.fieldType,
     required this.fieldHint,
+    required this.controller,
   });
 
   @override
@@ -32,6 +34,7 @@ class InputField extends StatelessWidget{
         Expanded(
           child: TextField(
             keyboardType: keyboards[fieldType],
+            controller: controller,
             decoration: InputDecoration(
               hintText: fieldHint,
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),

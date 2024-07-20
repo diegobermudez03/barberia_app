@@ -22,7 +22,7 @@ class _DateTimePickerFieldState extends State<DateTimePickerField> {
   Future<void> _selectDate(BuildContext context) async{
     DateTime? aux = await showDatePicker(
       context: context, 
-      firstDate: DateTime(2000), 
+      firstDate: DateTime.now(), 
       currentDate: widget.date, 
       lastDate: DateTime(2100)
     );
