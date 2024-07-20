@@ -1,4 +1,5 @@
 import 'package:barberia_app/repository/repository.dart';
+import 'package:barberia_app/utils/functions.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentsViewModel {
@@ -25,7 +26,7 @@ class AppointmentsViewModel {
         "apellidos" : lastName,
         "cedula" : int.parse(cedula),
         "edad" : int.parse(age),
-        "fecha" : '${date.year}${date.month<10? 0: "" }${date.month}${date.day < 10? 0:""}${date.day}',
+        "fecha" : dateToString(date), 
         "hora" : '${time.hour < 10 ? 0:""}${time.hour}${time.minute < 10 ? 0:""}${time.minute}',
       };
       print(appt);
