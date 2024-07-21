@@ -37,4 +37,9 @@ class AppointmentsViewModel {
     }
   }
 
+  Future<List<String>?> seekAppointments(DateTime date) async{
+    return await repo.seekAppointments(date);
+
+  }
+
 }

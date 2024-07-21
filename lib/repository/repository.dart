@@ -16,7 +16,6 @@ class AppointmentsRepository{
     if(! await folder.exists()){
       await folder.create(recursive: true);
     }
-    print(folder);
     final jsonFile = File('${folder.path}/${appt["cedula"]}.json');
     String jsonString = jsonEncode(appt);
     await jsonFile.writeAsString(jsonString);
@@ -24,7 +23,7 @@ class AppointmentsRepository{
     return true;
   }
 
-  Future<String?> seekAppointments(DateTime date) async
+  Future<List<String>?> seekAppointments(DateTime date) async
   {
     final directory = await getApplicationDocumentsDirectory();
     final folder = Directory('${directory.path}/${dateToString(date)}');
@@ -39,7 +38,7 @@ class AppointmentsRepository{
         appts.add(await (file as File).readAsString());
       }
     }
-    print(appts);
+    return appts;
   }
 
 }

@@ -1,11 +1,38 @@
+import 'package:barberia_app/view_models/appointments_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class SeekAppointmentScreen extends StatelessWidget{
-  DateTime date = DateTime.now();
+class SeekAppointmentScreen extends StatefulWidget{
+
   SeekAppointmentScreen({super.key});
 
-  void _selectDate(BuildContext context){}
-  void _seekAppts(){}
+  @override
+  State<SeekAppointmentScreen> createState() => _SeekAppointmentScreenState();
+}
+
+class _SeekAppointmentScreenState extends State<SeekAppointmentScreen> {
+  DateTime date = DateTime.now();
+  List<String> appts = [];
+  final viewModel = AppointmentsViewModel.getInstance();
+
+  void _selectDate(BuildContext context) async{
+    DateTime? aux = await showDatePicker(
+      context: context, 
+      firstDate: DateTime.now(), 
+      currentDate: date, 
+      lastDate: DateTime(2100)
+    );
+    if(aux != null){
+      setState(() {
+        date = aux;
+      });
+    }
+  }
+
+  void _seekAppts() async{
+    appts = (await viewModel.seekAppointments(date))!;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +83,17 @@ class SeekAppointmentScreen extends StatelessWidget{
               )
           ),
           const SizedBox(height: 10,),
-          /*ListView.builder(
-            itemBuilder: itemBuilder
-          )*/
+          Expanded(
+           // height: 400,
+            child: ListView.builder(
+              itemCount: appts.length,
+              itemBuilder: (context, index){
+                return ListTile(
+                  title: Text(appts[index]),
+                );
+              }
+            ),
+          )
         ],
       ),
     );
