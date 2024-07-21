@@ -1,3 +1,5 @@
+import 'package:barberia_app/models/appointment.dart';
+import 'package:barberia_app/models/user.dart';
 import 'package:barberia_app/repository/repository.dart';
 import 'package:barberia_app/utils/functions.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +39,23 @@ class AppointmentsViewModel {
     }
   }
 
-  Future<List<String>?> seekAppointments(DateTime date) async{
-    return await repo.seekAppointments(date);
+  Future<List<Appointment>> seekAppointments(DateTime date) async{
+    var apptJSON = await repo.seekAppointments(date);
+    List<Appointment> appointments = apptJSON.map((appt){
+      User user = User(
+        cedula: appt["cedula"],
+        lastName: appt["apellidos"],
+        firstName: appt["nombres"],
+        age: appt["edad"],
+      );
+      Appointment appointment = Appointment(
+        client: user, 
+        date: date,
+        time: stringToTime(appt["hora"]),
+      );
+      return appointment;
+    }).toList();
+    return appointments;
 
   }
 

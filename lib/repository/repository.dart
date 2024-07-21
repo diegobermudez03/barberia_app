@@ -23,19 +23,18 @@ class AppointmentsRepository{
     return true;
   }
 
-  Future<List<String>?> seekAppointments(DateTime date) async
+  Future<List<Map<String,dynamic>>> seekAppointments(DateTime date) async
   {
     final directory = await getApplicationDocumentsDirectory();
     final folder = Directory('${directory.path}/${dateToString(date)}');
-    if(! await folder.exists()){
-      return null;
-    }
-    var apptsStream = folder.list(recursive: false);
+    List<Map<String,dynamic>> appts = [];
+    if(await folder.exists()){
+      var apptsStream = folder.list(recursive: false);
 
-    List<String> appts = [];
-    await for(FileSystemEntity file in apptsStream){
-      if (file is File){
-        appts.add(await (file as File).readAsString());
+      await for(FileSystemEntity file in apptsStream){
+        if (file is File){
+          appts.add(jsonDecode(await (file as File).readAsString()));
+        }
       }
     }
     return appts;

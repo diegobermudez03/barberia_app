@@ -6,7 +6,7 @@ class DateTimePickerField extends StatefulWidget{
 
   final Function stateSet;
 
-  DateTimePickerField({
+  const DateTimePickerField({
     super.key,
     required this.stateSet,
   });
@@ -56,41 +56,41 @@ class _DateTimePickerFieldState extends State<DateTimePickerField> {
       child: Row(
           children: [
             Expanded(
-              flex: 2,
+              flex: 4,
               child: TextField(
                 readOnly: true,
                 onTap: ()=>_selectDate(context),
                 decoration: InputDecoration(
                   hintText: '${prov.date.year}/${prov.date.month}/${prov.date.day}',
                   filled: true,
-                  prefixIcon: Icon(Icons.calendar_month_outlined),
+                  prefixIcon: const Icon(Icons.calendar_month_outlined),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(10)
                   ),
                   focusedBorder:  OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                    borderSide: const BorderSide(color: Colors.blue),
                     borderRadius: BorderRadius.circular(10)
                   )
                 ),
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
-              flex: 1,
+              flex: 3,
               child: TextField(
                 readOnly: true,
                 onTap: ()=> _selectTime(context),
                 decoration: InputDecoration(
                   hintText: '${prov.time.hour}:${prov.time.minute}',
                   filled: true,
-                  prefixIcon: Icon(Icons.timelapse_rounded),
+                  prefixIcon: const Icon(Icons.timelapse_rounded),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(10)
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                    borderSide: const BorderSide(color: Colors.blue),
                     borderRadius: BorderRadius.circular(10)
                   )
                 ),

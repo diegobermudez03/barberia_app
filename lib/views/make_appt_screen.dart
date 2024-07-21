@@ -3,15 +3,15 @@ import 'dart:math';
 
 import 'package:barberia_app/providers/date_time_provider.dart';
 import 'package:barberia_app/view_models/appointments_view_model.dart';
-import 'package:barberia_app/widgets/date_time_picker.dart';
+import 'package:barberia_app/views/widgets/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/input_field.dart';
+import 'widgets/input_field.dart';
 
 class MakeAppointmentScreen extends StatefulWidget{
 
-  MakeAppointmentScreen({super.key});
+  const MakeAppointmentScreen({super.key});
 
   @override
   State<MakeAppointmentScreen> createState() => _MakeAppointmentScreenState();
@@ -36,30 +36,47 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
     else if(ageController.text.isEmpty) errorMessage = "Debe ingresar la edad";
 
     var prov = Provider.of<DateTimeProvider>(context, listen: false);
-    if(errorMessage == null){
-       errorMessage = await viewModel.addAppointment(
+    errorMessage ??= await viewModel.addAppointment(
         firstName: firstNameController.text,
         lastName: lastNameController.text, 
         cedula: cedulaController.text,
         age: ageController.text, 
         date: prov.date, time: prov.time
       );
-    }
-    if(errorMessage == null) return;
+    if(errorMessage == null){
+      await showDialog(
+        context: context, 
+        builder: (con){
+          return const AlertDialog.adaptive(
+            icon: Icon(Icons.store_mall_directory),
+            title: Text("Cita agendada"),
+          );
+        }
+      );
+      setState(() {
+        firstNameController.clear();
+        lastNameController.clear();
+        cedulaController.clear();
+        ageController.clear();
+        prov.date = DateTime.now();
+        prov.time = TimeOfDay.now();
+      });
+      return;
+    };
     await showDialog(
       context: context, 
       builder: (con){
         return AlertDialog(
-          title: Center(child: Text("No se pudo agendar")),
-          content: Container(
+          title: const Center(child: Text("No se pudo agendar")),
+          content: SizedBox(
             height: 100,
             child: Column(
               children: [
                 Text(errorMessage!),
-                SizedBox(height: 5,),
+                const SizedBox(height: 5,),
                 TextButton(
                   onPressed: ()=>Navigator.of(context).pop(), 
-                  child: Text("Aceptar", style: TextStyle(fontSize: 16),)
+                  child: const Text("Aceptar", style: TextStyle(fontSize: 16),)
                 )
               ],
             ),
@@ -73,7 +90,7 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: Column(
           children: [
             const SizedBox(height: 20,),
@@ -105,12 +122,12 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
             const SizedBox(height: 20,),
             TextButton(
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(Color.fromARGB(220, 82, 73, 124)),
-                fixedSize: WidgetStateProperty.all(Size(200, 50)),
-                elevation: WidgetStatePropertyAll(10)
+                backgroundColor: WidgetStateProperty.all<Color>(const Color.fromARGB(220, 82, 73, 124)),
+                fixedSize: WidgetStateProperty.all( const Size(200, 50)),
+                elevation: const WidgetStatePropertyAll(10)
               ),
               onPressed: _makeAppointment, 
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.save_alt, color: Colors.white,),
