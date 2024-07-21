@@ -84,22 +84,50 @@ class _SeekAppointmentScreenState extends State<SeekAppointmentScreen> {
               )
           ),
           const SizedBox(height: 10,),
-          Expanded(
-           // height: 400,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(172, 225, 219, 255), 
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: ListView.builder(
-                itemCount: appts.length,
-                itemBuilder: (context, index){
-                  return  AppointmentWidget(appt: appts[index], even: index % 2);
-                }
-              ),
+          (appts.length > 0 ? Expanded(
+            child: Column(
+              children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(226, 49, 39, 87),
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    margin: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 0),
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("  Cedula", style: TextStyle(color: Colors.white),),
+                        Text("Nombre completo", style: TextStyle(color: Colors.white),),
+                        Text("Hora  ", style: TextStyle(color: Colors.white),)
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 15, right:15, bottom: 5,),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(172, 225, 219, 255), 
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ListView.builder(
+                        itemCount: appts.length,
+                        itemBuilder: (context, index){
+                          return  AppointmentWidget(appt: appts[index], even: index % 2);
+                        }
+                      ),
+                    ),
+                  )
+              ],
             ),
+          ):
+          (
+            Container(
+              margin: EdgeInsets.all(40),
+              child: Text("No se encontraron citas", style: TextStyle(fontSize: 15),),
+            )
+          )
           )
         ],
       ),

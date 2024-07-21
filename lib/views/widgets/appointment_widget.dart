@@ -16,17 +16,18 @@ class AppointmentWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      height: 50,
       margin: EdgeInsets.symmetric(vertical: 2),
       decoration: BoxDecoration(
-        color: even == 1?Colors.black: Colors.white,
+        color: even == 1?Color.fromARGB(255, 216, 212, 248): Colors.white,
         borderRadius: BorderRadius.circular(8)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            width: 100,
+          Container(
+            width: 90,
+            padding: EdgeInsets.only(left: 10),
             child: Text(appt.client.cedula.toString()),
           ),
            SizedBox(
@@ -34,7 +35,7 @@ class AppointmentWidget extends StatelessWidget{
             child: Text('${appt.client.firstName} ${appt.client.lastName}'),
           ),
           SizedBox(
-            width: 80,
+            width: 70,
             child: Text(appt.time.format(context)),
           ),
         ]
