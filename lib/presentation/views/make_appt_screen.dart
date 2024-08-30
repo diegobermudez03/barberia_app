@@ -1,3 +1,4 @@
+import 'package:barberia_app/dependencies.dart';
 import 'package:barberia_app/presentation/view_models/appointments_view_model.dart';
 import 'package:barberia_app/presentation/views/widgets/date_time_picker.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,8 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
   final lastNameController = TextEditingController();
   final cedulaController = TextEditingController();
   final ageController = TextEditingController();
-  final viewModel = AppointmentsViewModel.getInstance();
+  final viewModel =  depIn.get<AppointmentsViewModel>();
+  
   TimeOfDay? time;
   DateTime? date;
   
@@ -30,7 +32,8 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
     else if(firstNameController.text.isEmpty) errorMessage = "Debe ingresar el nombre";
     else if(lastNameController.text.isEmpty) errorMessage = "Debe ingresar los apelldios";
     else if(ageController.text.isEmpty) errorMessage = "Debe ingresar la edad";
-
+    else if(date == null || time == null) errorMessage = "Debe seleccionar las fechas";
+    
     errorMessage ??= await viewModel.addAppointment(
         firstName: firstNameController.text,
         lastName: lastNameController.text, 
@@ -38,6 +41,7 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
         age: ageController.text, 
         date: date!, time: time!
       );
+    //if it was a success it displays the success dialog and clears the fields
     if(errorMessage == null){
       await showDialog(
         context: context, 
@@ -57,7 +61,8 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
         time = TimeOfDay.now();
       });
       return;
-    };
+    }
+    //if it wasnt a success it prints the error dialog
     await showDialog(
       context: context, 
       builder: (con){

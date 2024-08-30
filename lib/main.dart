@@ -1,10 +1,12 @@
+import 'package:barberia_app/dependencies.dart';
 import 'package:barberia_app/presentation/views/homepage_screen.dart';
 import 'package:barberia_app/presentation/views/make_appt_screen.dart';
 import 'package:barberia_app/presentation/views/seek_appt_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initDependencies();
   runApp(const MyApp());
 }
 

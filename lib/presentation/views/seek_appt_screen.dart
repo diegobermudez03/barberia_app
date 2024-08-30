@@ -1,3 +1,4 @@
+import 'package:barberia_app/dependencies.dart';
 import 'package:barberia_app/models/appointment.dart';
 import 'package:barberia_app/presentation/view_models/appointments_view_model.dart';
 import 'package:barberia_app/presentation/views/widgets/appointment_widget.dart';
@@ -15,7 +16,7 @@ class SeekAppointmentScreen extends StatefulWidget{
 class _SeekAppointmentScreenState extends State<SeekAppointmentScreen> {
   DateTime date = DateTime.now();
   List<Appointment> appts = [];
-  final viewModel = AppointmentsViewModel.getInstance();
+  final viewModel =  depIn.get<AppointmentsViewModel>();
 
   void _selectDate(BuildContext context) async{
     DateTime? aux = await showDatePicker(
