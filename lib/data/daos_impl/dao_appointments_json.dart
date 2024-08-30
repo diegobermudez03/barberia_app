@@ -1,14 +1,14 @@
 import 'dart:convert';
 
+import 'package:barberia_app/data/daos_interfaces/dao_appointments.dart';
 import 'package:barberia_app/utils/functions.dart';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
 
-class AppointmentsRepository{
+class DaoAppointmentsJSON implements DaoAppointments{
 
-
+  @override
   Future<bool> addAppointment(Map<String, dynamic> appt) async
   {
     final directory = await getApplicationDocumentsDirectory();
@@ -23,6 +23,7 @@ class AppointmentsRepository{
     return true;
   }
 
+  @override
   Future<List<Map<String,dynamic>>> seekAppointments(DateTime date) async
   {
     final directory = await getApplicationDocumentsDirectory();

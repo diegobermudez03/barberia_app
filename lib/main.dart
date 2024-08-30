@@ -1,7 +1,6 @@
-import 'package:barberia_app/providers/date_time_provider.dart';
-import 'package:barberia_app/views/homepage_screen.dart';
-import 'package:barberia_app/views/make_appt_screen.dart';
-import 'package:barberia_app/views/seek_appt_screen.dart';
+import 'package:barberia_app/presentation/views/homepage_screen.dart';
+import 'package:barberia_app/presentation/views/make_appt_screen.dart';
+import 'package:barberia_app/presentation/views/seek_appt_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,16 +13,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context)=> DateTimeProvider(),
-      child: MaterialApp(
-        home: Homepage(),
-        debugShowCheckedModeBanner: false,
-        routes:{
-          "/make_app": (context) => MakeAppointmentScreen(),
-          "/seek_app": (context) => SeekAppointmentScreen(),
-        }
-      ),
+    return MaterialApp(
+      home: const Homepage(),
+      debugShowCheckedModeBanner: false,
+      routes:{
+        "/make_app": (context) => MakeAppointmentScreen(),
+        "/seek_app": (context) => SeekAppointmentScreen(),
+      }
     );
   }
 }

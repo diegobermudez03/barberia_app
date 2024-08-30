@@ -1,12 +1,6 @@
-
-import 'dart:math';
-
-import 'package:barberia_app/providers/date_time_provider.dart';
-import 'package:barberia_app/view_models/appointments_view_model.dart';
-import 'package:barberia_app/views/widgets/date_time_picker.dart';
+import 'package:barberia_app/presentation/view_models/appointments_view_model.dart';
+import 'package:barberia_app/presentation/views/widgets/date_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'widgets/input_field.dart';
 
 class MakeAppointmentScreen extends StatefulWidget{
@@ -26,22 +20,23 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
   final cedulaController = TextEditingController();
   final ageController = TextEditingController();
   final viewModel = AppointmentsViewModel.getInstance();
+  TimeOfDay? time;
+  DateTime? date;
   
 
-  void _makeAppointment() async{
+  void _makeAppointment(BuildContext context) async{
     String? errorMessage;
     if(cedulaController.text.length < 8) errorMessage = "La cedula debe contener mas de 7 digitos";
     else if(firstNameController.text.isEmpty) errorMessage = "Debe ingresar el nombre";
     else if(lastNameController.text.isEmpty) errorMessage = "Debe ingresar los apelldios";
     else if(ageController.text.isEmpty) errorMessage = "Debe ingresar la edad";
 
-    var prov = Provider.of<DateTimeProvider>(context, listen: false);
     errorMessage ??= await viewModel.addAppointment(
         firstName: firstNameController.text,
         lastName: lastNameController.text, 
         cedula: cedulaController.text,
         age: ageController.text, 
-        date: prov.date, time: prov.time
+        date: date!, time: time!
       );
     if(errorMessage == null){
       await showDialog(
@@ -58,8 +53,8 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
         lastNameController.clear();
         cedulaController.clear();
         ageController.clear();
-        prov.date = DateTime.now();
-        prov.time = TimeOfDay.now();
+        date = DateTime.now();
+        time = TimeOfDay.now();
       });
       return;
     };
@@ -118,7 +113,7 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
               controller: ageController,
             ),
             const SizedBox(height: 20,),
-            DateTimePickerField(stateSet: setState,),
+            DateTimePickerField(timeHandler: _selectTime, dateHanlder: _selectDate,),
             const SizedBox(height: 20,),
             TextButton(
               style: ButtonStyle(
@@ -126,7 +121,7 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
                 fixedSize: WidgetStateProperty.all( const Size(200, 50)),
                 elevation: const WidgetStatePropertyAll(10)
               ),
-              onPressed: _makeAppointment, 
+              onPressed: ()=>_makeAppointment(context), 
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -137,6 +132,22 @@ class _MakeAppointmentScreenState extends State<MakeAppointmentScreen> {
           ]
         ),
       ),
+    );
+  }
+
+  Future<void> _selectTime(BuildContext context) async{
+    time= await showTimePicker(
+      context: context, 
+      initialTime: TimeOfDay.now()
+    );
+  }
+
+  Future<void> _selectDate(BuildContext context) async{
+    date = await showDatePicker(
+      context: context, 
+      firstDate: DateTime.now(), 
+      currentDate: DateTime.now(), 
+      lastDate: DateTime(2100)
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:barberia_app/models/appointment.dart';
-import 'package:barberia_app/view_models/appointments_view_model.dart';
-import 'package:barberia_app/views/widgets/appointment_widget.dart';
+import 'package:barberia_app/presentation/view_models/appointments_view_model.dart';
+import 'package:barberia_app/presentation/views/widgets/appointment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

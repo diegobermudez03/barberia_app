@@ -1,6 +1,6 @@
 import 'package:barberia_app/models/appointment.dart';
 import 'package:barberia_app/models/user.dart';
-import 'package:barberia_app/repository/repository.dart';
+import 'package:barberia_app/data/daos_impl/dao_appointments_json.dart';
 import 'package:barberia_app/utils/functions.dart';
 import 'package:flutter/material.dart';
 
