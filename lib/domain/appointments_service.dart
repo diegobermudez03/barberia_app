@@ -1,8 +1,8 @@
 import 'package:barberia_app/data/daos_interfaces/dao_appointments.dart';
-import 'package:barberia_app/models/appointment.dart';
-import 'package:barberia_app/models/user.dart';
-import 'package:barberia_app/utils/failures.dart';
-import 'package:barberia_app/utils/functions.dart';
+import 'package:barberia_app/domain/models/appointment.dart';
+import 'package:barberia_app/domain/models/user.dart';
+import 'package:barberia_app/core/utils/failures.dart';
+import 'package:barberia_app/core/utils/functions.dart';
 import 'package:dartz/dartz.dart';
 
 class AppointmentsService{

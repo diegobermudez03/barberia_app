@@ -1,4 +1,4 @@
-import 'package:barberia_app/models/user.dart';
+import 'package:barberia_app/domain/models/user.dart';
 import 'package:flutter/material.dart';
 
 class Appointment{

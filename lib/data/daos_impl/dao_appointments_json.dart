@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:barberia_app/data/daos_interfaces/dao_appointments.dart';
-import 'package:barberia_app/utils/failures.dart';
-import 'package:barberia_app/utils/functions.dart';
+import 'package:barberia_app/core/utils/failures.dart';
+import 'package:barberia_app/core/utils/functions.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
@@ -14,6 +15,9 @@ class DaoAppointmentsJSON implements DaoAppointments{
   Future<Either<Failure,bool>> addAppointment(Map<String, dynamic> appt) async
   {
     try{
+      appt["fecha"] = dateToString(appt["fecha"]);
+      TimeOfDay time = appt["hora"];
+      appt["hora"] = '${time.hour < 10 ? 0:""}${time.hour}${time.minute < 10 ? 0:""}${time.minute}';
       final directory = await getApplicationDocumentsDirectory();
       final folder = Directory('${directory.path}/${appt["fecha"]}');
       if(! await folder.exists()){

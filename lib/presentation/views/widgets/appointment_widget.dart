@@ -1,4 +1,4 @@
-import 'package:barberia_app/models/appointment.dart';
+import 'package:barberia_app/domain/models/appointment.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentWidget extends StatelessWidget{

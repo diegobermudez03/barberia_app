@@ -1,4 +1,4 @@
-import 'package:barberia_app/utils/failures.dart';
+import 'package:barberia_app/core/utils/failures.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class DaoAppointments{
